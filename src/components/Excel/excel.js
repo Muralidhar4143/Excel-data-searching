@@ -7,6 +7,8 @@ function excel() {
   // on change states
   const [excelFile, setExcelFile]=useState(null);
   const [excelFileError, setExcelFileError]=useState(null);  
+  const [input, setInput] = useState("")
+  const [setdatas] = useState("")
  
   // submit
   const [excelData, setExcelData]=useState(null);
@@ -45,11 +47,24 @@ function excel() {
       const worksheet=workbook.Sheets[worksheetName];
       const data = XLSX.utils.sheet_to_json(worksheet);
       setExcelData(data);
+      setdatas(data);
     }
     else{
       setExcelData(null);
     }
   }
+  const handleSearch = () =>{
+	const impdata = excelData.filter((ech) => ech.BibNumber == input);
+	console.log(impdata)
+	// const impdata = excelData.filter((ech) => ech.BibNumber === input );
+	// console.log(impdata)
+	setExcelData(impdata)
+	// console.log(input)
+	// console.log(excelData)
+
+		
+
+	}
   
   return (
     <div className="container">
@@ -75,6 +90,11 @@ function excel() {
       </div>
 
       <br></br>
+      <center>
+	<label>User BIB Number</label>
+	<input type="text" value={input} onChange={e => setInput(e.target.value)}/>
+	<button onClick={handleSearch}>Search for profile</button>
+	</center>
       <hr></hr>
 
       {/* view file section */}
